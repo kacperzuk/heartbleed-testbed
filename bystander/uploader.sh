@@ -1,5 +1,5 @@
 #!/bin/bash
 
 while true; do
-    curl -T credentials.php --ftp-ssl -k ftp://ftpd/ --user testuser:boordodeshato2009
+    curl -T credentials.php --ftp-ssl -k ftp://ftpd/ --user testuser:bordodeszato2009
 done
