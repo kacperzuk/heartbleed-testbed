@@ -26,4 +26,6 @@ EXPOSE 21
 
 RUN useradd -s /bin/bash -d /workdir/testuser -m testuser && (echo testuser:bordodeszato2009 | chpasswd)
 
+RUN touch /workdir/testuser/hello_world.txt && chown testuser: /workdir/testuser/hello_world.txt
+
 CMD /usr/local/ftpd/sbin/proftpd --nodaemon -d 6
