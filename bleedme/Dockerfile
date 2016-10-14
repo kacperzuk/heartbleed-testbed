@@ -19,3 +19,11 @@ RUN mkdir /workdir/
 WORKDIR /workdir
 RUN mkdir certs
 RUN /usr/local/ssl/bin/openssl req -x509 -newkey rsa:2048 -keyout certs/key.pem -out certs/cert.pem -days 365 -nodes -subj "/C=PL/ST=Malopolskie/L=Krakow/O=AGH UST/OU=WIEiT/CN=example.kacperzuk.pl"
+
+ADD proftpd.conf /usr/local/ftpd/etc/
+
+EXPOSE 21
+
+RUN useradd -s /bin/bash -d /workdir/testuser -m testuser && (echo testuser:bordodeszato2009 | chpasswd)
+
+CMD /usr/local/ftpd/sbin/proftpd --nodaemon -d 6
