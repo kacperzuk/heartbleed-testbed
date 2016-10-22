@@ -23,9 +23,7 @@ Usage
 
 Run vulnerable FTP server
 ```
-cd proftpd-bleed
-docker build -t proftpd-bleed .
-docker run -p 2121:21 -p 30000-30009:30000-30009 -it --rm --name=proftpd-bleed proftpd-bleed
+docker run -p 2121:21 -p 30000-30009:30000-30009 -it --rm --name=proftpd-bleed kacperzuk/heartbleed-testbed-proftpd-bleed
 ```
 
 Test connection:
@@ -37,32 +35,24 @@ $ curl -vk --ftp-ssl ftp://localhost:2121/ --user testuser:bordodeszato2009
 
 Run a fake-user that uploads credentials.php to server few times a second:
 ```
-cd ftp-bystander
-docker build -t ftp-bystander .
-docker run --link proftpd-bleed:ftpd -it --rm --name=ftp-bystander ftp-bystander
+docker run --link proftpd-bleed:ftpd -it --rm --name=ftp-bystander kacperzuk/heartbleed-testbed-ftp-bystander
 ```
 
 Run exploit from metasploit (it extracts private key and dumps it into /tmp/msf4/loot):
 ```
-cd metasploit
-docker build -t metasploit .
-docker run --link proftpd-bleed:ftpd --rm -it -v /tmp/msf4:/root/.msf4 metasploit /usr/local/bin/init.sh ftp-hb.rc
+docker run --link proftpd-bleed:ftpd --rm -it -v /tmp/msf4:/root/.msf4 kacperzuk/heartbleed-testbed-metasploit /usr/local/bin/init.sh ftp-hb.rc
 ```
 
 Run authtls-heartbleed.py exploit (it tries to extract PHP file, but won't succeed ever because proftpd is forking):
 ```
-cd exploit
-docker build -t exploit .
-docker run --link proftpd-bleed:ftpd --rm -it exploit python3 authtls-heartbleed.py ftpd 21
+docker run --link proftpd-bleed:ftpd --rm -it kacperzuk/heartbleed-testbed-exploit python3 authtls-heartbleed.py ftpd 21
 ```
 
 You can stop all containers.
 
 Run vulnerable HTTPS server
 ```
-cd nginx-bleed
-docker build -t nginx-bleed .
-docker run -p 4443:443 -it --rm --name=nginx-bleed nginx-bleed
+docker run -p 4443:443 -it --rm --name=nginx-bleed kacperzuk/heartbleed-testbed-nginx-bleed
 ```
 
 Test connection:
@@ -74,21 +64,15 @@ $ curl -vk https://localhost:4443/confidential.txt --user testuser:bordodes
 
 Run a fake-user that uploads credentials.php to server few times a second:
 ```
-cd http-bystander
-docker build -t http-bystander .
-docker run --link nginx-bleed:httpd -it --rm --name=http-bystander http-bystander
+docker run --link nginx-bleed:httpd -it --rm --name=http-bystander kacperzuk/heartbleed-testbed-http-bystander
 ```
 
 Run exploit from metasploit (it extracts private key):
 ```
-cd metasploit
-docker build -t metasploit .
-docker run --link nginx-bleed:httpd --rm -it -v /tmp/msf4:/root/.msf4 metasploit /usr/local/bin/init.sh http-hb.rc
+docker run --link nginx-bleed:httpd --rm -it -v /tmp/msf4:/root/.msf4 kacperzuk/heartbleed-testbed-metasploit /usr/local/bin/init.sh http-hb.rc
 ```
 
 Run https-heartbleed.py exploit (nginx isn't forking, so it should find the confidential file):
 ```
-cd exploit
-docker build -t exploit .
-docker run --link nginx-bleed:httpd --rm -it exploit python3 https-heartbleed.py httpd 443
+docker run --link nginx-bleed:httpd --rm -it kacperzuk/heartbleed-testbed-exploit python3 https-heartbleed.py httpd 443
 ```
