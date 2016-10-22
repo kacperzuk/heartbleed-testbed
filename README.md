@@ -21,6 +21,9 @@ FIXME: dockerhub, jak juz bedzie
 Usage
 ======
 
+I recommend using docker hub, but if you want you can build images yourself by running build-all.sh
+
+
 Run vulnerable FTP server
 ```
 docker run -p 2121:21 -p 30000-30009:30000-30009 -it --rm --name=proftpd-bleed kacperzuk/heartbleed-testbed-proftpd-bleed
