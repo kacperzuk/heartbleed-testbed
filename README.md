@@ -56,6 +56,8 @@ docker build -t exploit .
 docker run --link proftpd-bleed:ftpd --rm -it exploit python3 authtls-heartbleed.py ftpd 21
 ```
 
+You can stop all containers.
+
 Run vulnerable HTTPS server
 ```
 cd nginx-bleed
@@ -87,7 +89,7 @@ docker run --link nginx-bleed:httpd --rm -it -v /tmp/msf4:/root/.msf4 metasploit
 Run https-heartbleed.py exploit (nginx isn't forking, so it should find the confidential file):
 ```
 cd exploit
-docker built -t exploit .
+docker build -t exploit .
 docker run --link nginx-bleed:httpd --rm -it exploit python3 https-heartbleed.py httpd 443
 ```
 
