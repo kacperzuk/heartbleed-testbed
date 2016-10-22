@@ -16,7 +16,7 @@ Repo + docker hub
 
 https://github.com/kacperzuk/heartbleed
 
-FIXME: dockerhub, jak juz bedzie
+heartbleed-testbed- images on https://hub.docker.com/u/kacperzuk/
 
 Usage
 ======
