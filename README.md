@@ -92,12 +92,3 @@ cd exploit
 docker build -t exploit .
 docker run --link nginx-bleed:httpd --rm -it exploit python3 https-heartbleed.py httpd 443
 ```
-
-
-Random info:
-======
-
-1. stary openssl nie potrafi zainstalowac juz sobie man pages z nowym perlem, wiec zamaist make install trzeba make install_sw
-2. proftpd jest gupie i nie linkuje poprawnie libow wymaganych przez openssl, trzeba dodac `-ldl` do `LDFLAGS`
-3. nowe gcc jest gupie i wydaje mi sie, ze `-ldl` nie jest potrzebne wiec i tak go nie uzywa. trzeba dodac `-Wl,--no-as-needed` przed `-ldl` w `LDFLAGS`
-4. FTP w passive mode wymaga przekierowania wiecej niz jednego portu...
